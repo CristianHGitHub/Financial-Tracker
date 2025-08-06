@@ -5,7 +5,7 @@ import { suggestCategory } from "@/app/actions/suggestCategory";
 
 const AddRecord = () => {
   const formRef = useRef<HTMLFormElement>(null);
-  const [amount, setAmount] = useState(50); // Default value for expense amount
+  const [amount, setAmount] = useState(""); // Default to empty string
   const [alertMessage, setAlertMessage] = useState<string | null>(null); // State for alert message
   const [alertType, setAlertType] = useState<"success" | "error" | null>(null); // State for alert type
   const [isLoading, setIsLoading] = useState(false); // State for loading spinner
@@ -17,7 +17,7 @@ const AddRecord = () => {
     setIsLoading(true); // Show spinner
     setAlertMessage(null); // Clear previous messages
 
-    formData.set("amount", amount.toString()); // Add the amount value to the form data
+    formData.set("amount", amount === "" ? "0" : amount); // Add the amount value to the form data
     formData.set("category", category); // Add the selected category to the form data
 
     const { error } = await addExpenseRecord(formData); // Removed `data` since it's unused
@@ -29,7 +29,7 @@ const AddRecord = () => {
       setAlertMessage("Expense record added successfully!");
       setAlertType("success"); // Set alert type to success
       formRef.current?.reset();
-      setAmount(50); // Reset the amount to the default value
+      setAmount(""); // Reset to empty string
       setCategory(""); // Reset the category
       setDescription(""); // Reset the description
     }
@@ -248,7 +248,17 @@ const AddRecord = () => {
                 max="1000"
                 step="0.01"
                 value={amount}
-                onChange={(e) => setAmount(parseFloat(e.target.value) || 0)}
+                onChange={(e) => {
+                  // Allow empty string, otherwise remove leading zeros
+                  let val = e.target.value;
+                  if (val === "") {
+                    setAmount("");
+                  } else {
+                    // Remove leading zeros except for "0." (decimals)
+                    val = val.replace(/^0+(\d)/, "$1");
+                    setAmount(val);
+                  }
+                }}
                 className="w-full pl-6 pr-3 py-2.5 bg-white/70 dark:bg-gray-800/70 border-2 border-gray-200/80 dark:border-gray-600/80 rounded-xl focus:ring-2 focus:ring-emerald-500/30 focus:bg-white dark:focus:bg-gray-700/90 focus:border-emerald-400 dark:focus:border-emerald-400 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 text-sm font-semibold shadow-sm hover:shadow-md transition-all duration-200"
                 placeholder="0.00"
                 required
