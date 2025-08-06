@@ -23,7 +23,7 @@ const ContactPage = () => {
           </p>
           <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-2 sm:px-0">
             <a
-              href="mailto:support@financialtracker-ai.com"
+              href="mailto:financialtrackerai@gmail.com"
               className="group relative overflow-hidden bg-gradient-to-r from-emerald-600 via-green-500 to-teal-500 hover:from-emerald-700 hover:via-green-600 hover:to-teal-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl font-semibold shadow-2xl hover:shadow-3xl transition-all duration-200 transform hover:-translate-y-0.5"
             >
               <span className="relative z-10 flex items-center justify-center gap-2">
@@ -33,7 +33,7 @@ const ContactPage = () => {
               <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
             </a>
             <a
-              href="tel:+11234567890"
+              href="tel:+18139653146"
               className="group border-2 border-emerald-500/20 dark:border-emerald-400/20 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 px-6 sm:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl font-semibold transition-all duration-200 backdrop-blur-sm flex items-center justify-center gap-2"
             >
               Call Us
@@ -76,14 +76,14 @@ const ContactPage = () => {
                 </h3>
                 <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-3 sm:mb-4 leading-relaxed">
                   Get detailed assistance with your questions. We typically
-                  respond within 24 hours.
+                  respond within 48 hours.
                 </p>
                 <a
-                  href="mailto:support@financialtracker-ai.com"
+                  href="mailto:financialtrackerai@gmail.com"
                   className="inline-flex items-center gap-2 text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 font-medium transition-colors duration-200 text-sm sm:text-base break-all sm:break-normal"
                 >
                   <span className="hidden sm:inline">
-                    support@financialtracker-ai.com
+                    financialtrackerai@gmail.com
                   </span>
                   <span className="sm:hidden">Email Us</span>
                   <span className="text-sm">→</span>
@@ -105,10 +105,10 @@ const ContactPage = () => {
                   with urgent matters.
                 </p>
                 <a
-                  href="tel:+11234567890"
+                  href="tel:+18139653146"
                   className="inline-flex items-center gap-2 text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 font-medium transition-colors duration-200 text-sm sm:text-base"
                 >
-                  +1 (123) 456-7890
+                  +1 (813) 965-3146
                   <span className="text-sm">→</span>
                 </a>
               </div>
@@ -121,16 +121,15 @@ const ContactPage = () => {
                   <span className="text-white text-lg sm:text-xl">📍</span>
                 </div>
                 <h3 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4 text-gray-900 dark:text-gray-100">
-                  Office Location
+                  Remote Availability
                 </h3>
                 <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-3 sm:mb-4 leading-relaxed">
-                  Visit our headquarters for in-person consultations and
-                  partnership discussions.
+                  This is a fully remote project led by a single student
+                  developer. All consultations and collaborations are conducted
+                  virtually.
                 </p>
                 <div className="text-emerald-600 dark:text-emerald-400 font-medium text-sm sm:text-base">
-                  123 AI Innovation St
-                  <br />
-                  Tech City, USA
+                  Feel free to reach out to connect!
                 </div>
               </div>
             </div>
@@ -167,11 +166,11 @@ const ContactPage = () => {
               <div className="space-y-2 text-sm sm:text-base text-gray-600 dark:text-gray-400">
                 <div className="flex justify-between">
                   <span>Monday - Friday:</span>
-                  <span className="font-medium">9:00 AM - 6:00 PM PST</span>
+                  <span className="font-medium">10:00 AM - 5:00 PM PST</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Saturday:</span>
-                  <span className="font-medium">10:00 AM - 4:00 PM PST</span>
+                  <span className="font-medium">11:00 AM - 3:00 PM PST</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Sunday:</span>
@@ -179,8 +178,8 @@ const ContactPage = () => {
                 </div>
                 <div className="mt-4 p-3 bg-emerald-50 dark:bg-emerald-900/30 rounded-lg">
                   <p className="text-xs sm:text-sm text-emerald-700 dark:text-emerald-300">
-                    <strong>Email support:</strong> Available 24/7 with
-                    responses within 24 hours
+                    <strong>Email support:</strong> Emails will be responded to
+                    within 14 business days.
                   </p>
                 </div>
               </div>
@@ -201,8 +200,9 @@ const ContactPage = () => {
                     Technical Issues
                   </h4>
                   <p className="text-xs text-gray-600 dark:text-gray-400">
-                    App not working properly? Check our troubleshooting guide
-                    first.
+                    App not working properly? Try refreshing the page. If it
+                    does not work feel free to email
+                    financialtrackerai@gmail.com about the issue.
                   </p>
                 </div>
                 <div className="p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
@@ -210,16 +210,10 @@ const ContactPage = () => {
                     AI Features
                   </h4>
                   <p className="text-xs text-gray-600 dark:text-gray-400">
-                    Questions about AI insights? Our AI documentation has
-                    answers.
-                  </p>
-                </div>
-                <div className="p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
-                  <h4 className="font-semibold text-gray-900 dark:text-gray-100 text-xs sm:text-sm mb-1">
-                    Account & Billing
-                  </h4>
-                  <p className="text-xs text-gray-600 dark:text-gray-400">
-                    Account issues or billing questions? Contact us directly.
+                    Questions about AI insights? This website uses DeepSeek as
+                    the AI tool. If you are having issues with AI it could be a
+                    problem with to much traffic on DeepSeek. Come back later or
+                    try refreshing the insights.
                   </p>
                 </div>
               </div>

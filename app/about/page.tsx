@@ -62,7 +62,7 @@ const AboutPage = () => {
           <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="bg-gradient-to-br from-emerald-50 to-green-50 dark:from-emerald-900/20 dark:to-green-900/20 p-6 rounded-2xl border border-emerald-100 dark:border-emerald-800/50">
               <div className="text-3xl font-bold text-emerald-600 dark:text-emerald-400 mb-2">
-                10K+
+                10+
               </div>
               <div className="text-gray-600 dark:text-gray-400 font-medium">
                 Active Users
@@ -70,7 +70,7 @@ const AboutPage = () => {
             </div>
             <div className="bg-gradient-to-br from-green-50 to-teal-50 dark:from-green-900/20 dark:to-teal-900/20 p-6 rounded-2xl border border-green-100 dark:border-green-800/50">
               <div className="text-3xl font-bold text-green-600 dark:text-green-400 mb-2">
-                $2M+
+                $10K+
               </div>
               <div className="text-gray-600 dark:text-gray-400 font-medium">
                 Money Tracked
@@ -204,7 +204,7 @@ const AboutPage = () => {
                   <div className="w-10 h-10 bg-gradient-to-br from-teal-500 to-emerald-500 rounded-full border-2 border-white dark:border-gray-800"></div>
                 </div>
                 <div className="text-sm text-gray-600 dark:text-gray-400">
-                  <div className="font-semibold">Trusted by 10,000+ users</div>
+                  <div className="font-semibold">Trusted by 10+ users</div>
                   <div>Join our growing community</div>
                 </div>
               </div>
@@ -215,7 +215,7 @@ const AboutPage = () => {
                 <div className="flex items-center gap-4">
                   <div className="w-3 h-3 bg-emerald-500 dark:bg-emerald-400 rounded-full"></div>
                   <div className="text-gray-900 dark:text-gray-100 font-medium">
-                    Founded in 2024
+                    Founded in 2025
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
@@ -292,7 +292,7 @@ const AboutPage = () => {
           <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
               <div className="text-3xl font-bold text-emerald-600 dark:text-emerald-400 mb-2">
-                Free
+                Completly Free
               </div>
               <div className="text-gray-600 dark:text-gray-400">
                 No credit card required
