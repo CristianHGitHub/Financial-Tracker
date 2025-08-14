@@ -22,6 +22,7 @@ model User {
   createAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   Records Record[]
+  budget Budget?
 }
 
 model Record {
@@ -33,4 +34,25 @@ model Record {
   userId String
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   @@index([userId])
+}
+
+model Budget {
+  id String @id @default(uuid())
+  userId String @unique
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  monthlyIncome Float @default(0)
+  housing Float @default(0)
+  savings Float @default(0)
+  retirement Float @default(0)
+  food Float @default(0)
+  transportation Float @default(0)
+  utilities Float @default(0)
+  insurance Float @default(0)
+  personalEntertainment Float @default(0)
+  debt Float @default(0)
+  householdItems Float @default(0)
+  giving Float @default(0)
+  other Float @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

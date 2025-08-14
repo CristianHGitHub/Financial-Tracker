@@ -1,0 +1,28 @@
+-- CreateTable
+CREATE TABLE "public"."Budget" (
+    "id" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "monthlyIncome" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "housing" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "savings" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "retirement" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "food" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "transportation" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "utilities" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "insurance" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "personalEntertainment" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "debt" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "householdItems" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "giving" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "other" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Budget_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Budget_userId_key" ON "public"."Budget"("userId");
+
+-- AddForeignKey
+ALTER TABLE "public"."Budget" ADD CONSTRAINT "Budget_userId_fkey" FOREIGN KEY ("userId") REFERENCES "public"."User"("id") ON DELETE CASCADE ON UPDATE CASCADE;

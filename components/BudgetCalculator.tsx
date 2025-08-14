@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import BudgetPieChart from "./BudgetPieChart";
 import BudgetInsights from "./BudgetInsights";
 import Image from "next/image";
+import { loadBudget } from "@/app/actions/loadBudget";
+import { saveBudget } from "@/app/actions/saveBudget";
 
 interface BudgetCategory {
   name: string;
@@ -22,6 +24,9 @@ interface BudgetCalculatorProps {
 
 const BudgetCalculator = ({ user }: BudgetCalculatorProps) => {
   const [monthlyIncome, setMonthlyIncome] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isSaving, setIsSaving] = useState<boolean>(false);
+  const [saveMessage, setSaveMessage] = useState<string>("");
   const [categories, setCategories] = useState<BudgetCategory[]>([
     {
       name: "Housing",
@@ -112,6 +117,77 @@ const BudgetCalculator = ({ user }: BudgetCalculatorProps) => {
 
   const totalBudgeted = categories.reduce((sum, cat) => sum + cat.amount, 0);
   const remainingIncome = monthlyIncome - totalBudgeted;
+
+  // Load existing budget data when component mounts
+  useEffect(() => {
+    const loadExistingBudget = async () => {
+      try {
+        setIsLoading(true);
+        const result = await loadBudget();
+        if (result.success && result.data) {
+          setMonthlyIncome(result.data.monthlyIncome);
+          setCategories((prevCategories) => [
+            { ...prevCategories[0], amount: result.data!.housing },
+            { ...prevCategories[1], amount: result.data!.savings },
+            { ...prevCategories[2], amount: result.data!.retirement },
+            { ...prevCategories[3], amount: result.data!.food },
+            { ...prevCategories[4], amount: result.data!.transportation },
+            { ...prevCategories[5], amount: result.data!.utilities },
+            { ...prevCategories[6], amount: result.data!.insurance },
+            {
+              ...prevCategories[7],
+              amount: result.data!.personalEntertainment,
+            },
+            { ...prevCategories[8], amount: result.data!.debt },
+            { ...prevCategories[9], amount: result.data!.householdItems },
+            { ...prevCategories[10], amount: result.data!.giving },
+            { ...prevCategories[11], amount: result.data!.other },
+          ]);
+        }
+      } catch (error) {
+        console.error("Error loading budget:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadExistingBudget();
+  }, []);
+
+  // Save budget data to database
+  const handleSaveBudget = async () => {
+    try {
+      setIsSaving(true);
+      setSaveMessage("");
+
+      const budgetData = {
+        monthlyIncome,
+        housing: categories[0].amount,
+        savings: categories[1].amount,
+        retirement: categories[2].amount,
+        food: categories[3].amount,
+        transportation: categories[4].amount,
+        utilities: categories[5].amount,
+        insurance: categories[6].amount,
+        personalEntertainment: categories[7].amount,
+        debt: categories[8].amount,
+        householdItems: categories[9].amount,
+        giving: categories[10].amount,
+        other: categories[11].amount,
+      };
+
+      const result = await saveBudget(budgetData);
+      setSaveMessage(result.message);
+
+      // Clear message after 3 seconds
+      setTimeout(() => setSaveMessage(""), 3000);
+    } catch (error) {
+      console.error("Error saving budget:", error);
+      setSaveMessage("Failed to save budget");
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   const handleIncomeChange = (value: string) => {
     const numValue = parseFloat(value) || 0;
@@ -251,7 +327,8 @@ const BudgetCalculator = ({ user }: BudgetCalculatorProps) => {
               value={monthlyIncome || ""}
               onChange={(e) => handleIncomeChange(e.target.value)}
               placeholder="0.00"
-              className="w-full pl-8 pr-4 py-3 bg-gray-50/50 dark:bg-gray-700/50 border border-gray-200/50 dark:border-gray-600/50 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-200 text-lg font-semibold"
+              disabled={isLoading}
+              className="w-full pl-8 pr-4 py-3 bg-gray-50/50 dark:bg-gray-700/50 border border-gray-200/50 dark:border-gray-600/50 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-200 text-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
             />
           </div>
 
@@ -259,14 +336,15 @@ const BudgetCalculator = ({ user }: BudgetCalculatorProps) => {
           <div className="flex flex-col sm:flex-row gap-2 mt-4">
             <button
               onClick={applyRecommendations}
-              disabled={monthlyIncome === 0}
+              disabled={monthlyIncome === 0 || isLoading}
               className="flex-1 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 disabled:from-gray-400 disabled:to-gray-500 text-white px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 disabled:cursor-not-allowed"
             >
               Apply Recommendations
             </button>
             <button
               onClick={resetBudget}
-              className="flex-1 bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200"
+              disabled={isLoading}
+              className="flex-1 bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Reset Budget
             </button>
@@ -333,7 +411,8 @@ const BudgetCalculator = ({ user }: BudgetCalculatorProps) => {
                       handleCategoryChange(index, e.target.value)
                     }
                     placeholder="0.00"
-                    className="w-full pl-6 pr-3 py-2 bg-white dark:bg-gray-600 border border-gray-200 dark:border-gray-500 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-200 text-sm"
+                    disabled={isLoading}
+                    className="w-full pl-6 pr-3 py-2 bg-white dark:bg-gray-600 border border-gray-200 dark:border-gray-500 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-200 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                   />
                 </div>
                 {monthlyIncome > 0 && (
@@ -347,6 +426,38 @@ const BudgetCalculator = ({ user }: BudgetCalculatorProps) => {
                 )}
               </div>
             ))}
+          </div>
+
+          {/* Save Budget Button */}
+          <div className="mt-6 pt-4 border-t border-gray-200/50 dark:border-gray-600/50">
+            <button
+              onClick={handleSaveBudget}
+              disabled={isSaving}
+              className="w-full bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 disabled:from-gray-400 disabled:to-gray-500 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-200 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            >
+              {isSaving ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  Saving...
+                </>
+              ) : (
+                <>
+                  <span>💾</span>
+                  Save Budget
+                </>
+              )}
+            </button>
+            {saveMessage && (
+              <div
+                className={`mt-3 p-3 rounded-lg text-sm text-center ${
+                  saveMessage.includes("successfully")
+                    ? "bg-green-50/50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border border-green-200/50 dark:border-green-800/50"
+                    : "bg-red-50/50 dark:bg-red-900/20 text-red-700 dark:text-red-300 border border-red-200/50 dark:border-red-800/50"
+                }`}
+              >
+                {saveMessage}
+              </div>
+            )}
           </div>
         </div>
       </div>

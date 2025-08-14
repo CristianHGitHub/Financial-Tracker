@@ -1,145 +1,88 @@
 "use server";
-import { db } from "@/lib/db";
-import { auth } from "@clerk/nextjs/server";
 
-interface BudgetCategory {
-  name: string;
-  amount: number;
-  icon: string;
-  description: string;
-  recommendedPercentage: number;
-}
+import { checkUser } from "@/lib/checkUser";
+import { db } from "@/lib/db";
 
 interface BudgetData {
   monthlyIncome: number;
-  categories: BudgetCategory[];
+  housing: number;
+  savings: number;
+  retirement: number;
+  food: number;
+  transportation: number;
+  utilities: number;
+  insurance: number;
+  personalEntertainment: number;
+  debt: number;
+  householdItems: number;
+  giving: number;
+  other: number;
 }
 
-async function loadBudget(): Promise<{
-  budget?: BudgetData;
-  error?: string;
+export async function loadBudget(): Promise<{
+  success: boolean;
+  data?: BudgetData;
+  message: string;
 }> {
-  const { userId } = await auth();
-
-  if (!userId) {
-    return { error: "User not found" };
-  }
-
   try {
-    // Look for the most recent budget plan record
-    const budgetRecord = await db.record.findFirst({
+    const user = await checkUser();
+    if (!user) {
+      throw new Error("User not authenticated");
+    }
+
+    // Get user's budget data
+    const budget = await db.budget.findUnique({
       where: {
-        userId: userId,
-        category: "BUDGET_PLAN",
-      },
-      orderBy: {
-        date: "desc",
+        userId: user.id,
       },
     });
 
-    if (!budgetRecord) {
-      return { error: "No saved budget found" };
+    if (!budget) {
+      return {
+        success: true,
+        data: {
+          monthlyIncome: 0,
+          housing: 0,
+          savings: 0,
+          retirement: 0,
+          food: 0,
+          transportation: 0,
+          utilities: 0,
+          insurance: 0,
+          personalEntertainment: 0,
+          debt: 0,
+          householdItems: 0,
+          giving: 0,
+          other: 0,
+        },
+        message: "No budget data found, using defaults",
+      };
     }
 
-    // For now, return a default structure since we're storing minimal data
-    // In a full implementation, you'd store the complete budget structure
-    const defaultCategories: BudgetCategory[] = [
-      {
-        name: "Giving",
-        amount: 0,
-        icon: "🤲",
-        description: "Charitable donations and giving",
-        recommendedPercentage: 10,
-      },
-      {
-        name: "Savings",
-        amount: 0,
-        icon: "💰",
-        description: "Emergency fund and general savings",
-        recommendedPercentage: 20,
-      },
-      {
-        name: "Food",
-        amount: 0,
-        icon: "🍽️",
-        description: "Groceries and dining out",
-        recommendedPercentage: 12,
-      },
-      {
-        name: "Utilities",
-        amount: 0,
-        icon: "⚡",
-        description: "Electric, gas, water, internet",
-        recommendedPercentage: 8,
-      },
-      {
-        name: "Housing",
-        amount: 0,
-        icon: "🏠",
-        description: "Rent/mortgage and housing costs",
-        recommendedPercentage: 25,
-      },
-      {
-        name: "Transportation",
-        amount: 0,
-        icon: "🚗",
-        description: "Car payments, gas, public transit",
-        recommendedPercentage: 10,
-      },
-      {
-        name: "Insurance",
-        amount: 0,
-        icon: "🛡️",
-        description: "Health, auto, life insurance",
-        recommendedPercentage: 5,
-      },
-      {
-        name: "Household Items",
-        amount: 0,
-        icon: "🧽",
-        description: "Cleaning supplies, maintenance",
-        recommendedPercentage: 3,
-      },
-      {
-        name: "Debt",
-        amount: 0,
-        icon: "💳",
-        description: "Credit cards, loans",
-        recommendedPercentage: 0,
-      },
-      {
-        name: "Retirement",
-        amount: 0,
-        icon: "🏖️",
-        description: "401k, IRA contributions",
-        recommendedPercentage: 15,
-      },
-      {
-        name: "Personal and Entertainment",
-        amount: 0,
-        icon: "🎮",
-        description: "Hobbies, entertainment, personal care",
-        recommendedPercentage: 7,
-      },
-      {
-        name: "Other",
-        amount: 0,
-        icon: "📦",
-        description: "Miscellaneous expenses",
-        recommendedPercentage: 5,
-      },
-    ];
-
     return {
-      budget: {
-        monthlyIncome: budgetRecord.amount,
-        categories: defaultCategories,
+      success: true,
+      data: {
+        monthlyIncome: budget.monthlyIncome,
+        housing: budget.housing,
+        savings: budget.savings,
+        retirement: budget.retirement,
+        food: budget.food,
+        transportation: budget.transportation,
+        utilities: budget.utilities,
+        insurance: budget.insurance,
+        personalEntertainment: budget.personalEntertainment,
+        debt: budget.debt,
+        householdItems: budget.householdItems,
+        giving: budget.giving,
+        other: budget.other,
       },
+      message: "Budget data loaded successfully",
     };
   } catch (error) {
     console.error("Error loading budget:", error);
-    return { error: "Failed to load budget" };
+    return {
+      success: false,
+      message: error instanceof Error ? error.message : "Failed to load budget",
+    };
   }
 }
-
-export default loadBudget;
