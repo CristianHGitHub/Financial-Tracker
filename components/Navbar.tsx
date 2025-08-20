@@ -58,6 +58,14 @@ export default function Navbar() {
             </Link>
 
             <Link
+              href="/investment"
+              className="relative text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 px-3 lg:px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 hover:bg-emerald-50/50 dark:hover:bg-emerald-900/20 group"
+            >
+              <span className="relative z-10">Investment</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-green-500/10 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+            </Link>
+
+            <Link
               href="/about"
               className="relative text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 px-3 lg:px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 hover:bg-emerald-50/50 dark:hover:bg-emerald-900/20 group"
             >
@@ -181,6 +189,14 @@ export default function Navbar() {
             >
               <span className="text-base">💰</span>
               <span>Budget</span>
+            </Link>
+            <Link
+              href="/investment"
+              className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50/50 dark:hover:bg-emerald-900/20 text-sm font-medium transition-all duration-200 active:scale-95"
+              onClick={closeMobileMenu}
+            >
+              <span className="text-base">📈</span>
+              <span>Investment</span>
             </Link>
             <Link
               href="/about"
